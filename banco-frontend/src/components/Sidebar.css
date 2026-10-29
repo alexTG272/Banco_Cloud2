@@ -1,0 +1,457 @@
+.shared-sidebar {
+  position: sticky;
+
+  top: 0;
+
+  align-self: stretch;
+
+  width: 230px;
+
+  min-width: 230px;
+
+  flex: 0 0 230px;
+
+  min-height: 100vh;
+
+  height: auto;
+
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 24px 12px 18px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border-right: 1px solid #e4ebf3;
+
+  font-family:
+    "DM Sans",
+    sans-serif;
+}
+
+/* =========================================================
+   MARCA
+   ========================================================= */
+
+.shared-brand {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 2px 8px 28px;
+
+  color: #10294a;
+
+  font-family:
+    "Manrope",
+    sans-serif;
+
+  font-size: 19px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.6px;
+}
+
+.shared-brand-mark {
+  width: 30px;
+
+  height: 30px;
+
+  flex: 0 0 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 9px;
+
+  color: #ffffff;
+
+  background: #2369dc;
+
+  font-size: 16px;
+
+  line-height: 1;
+}
+
+.shared-brand-name {
+  white-space: nowrap;
+}
+
+.shared-brand-name span {
+  color: #2369dc;
+}
+
+/* =========================================================
+   LABEL
+   ========================================================= */
+
+.shared-section-label {
+  margin: 0;
+
+  padding:
+    0 10px 10px;
+
+  color: #99a7b7;
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+}
+
+/* =========================================================
+   NAVEGACION
+   ========================================================= */
+
+.shared-nav {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  width: 100%;
+}
+
+.shared-nav button {
+  width: 100%;
+
+  min-height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 0 10px;
+
+  box-sizing: border-box;
+
+  border: 0;
+
+  border-radius: 9px;
+
+  color: #718198;
+
+  background: transparent;
+
+  font-family:
+    "DM Sans",
+    sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+}
+
+.shared-nav button:hover {
+  color: #2369dc;
+
+  background: #f5f8fd;
+}
+
+.shared-nav button.active {
+  color: #2369dc;
+
+  background: #edf4ff;
+}
+
+/* =========================================================
+   ICONOS
+   ========================================================= */
+
+.shared-nav-icon {
+  width: 27px;
+
+  height: 27px;
+
+  flex: 0 0 27px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 8px;
+
+  color: currentColor;
+
+  background: #f3f5f8;
+
+  line-height: 0;
+}
+
+.shared-nav button.active
+.shared-nav-icon {
+  background: #e4edff;
+}
+
+.shared-nav-icon .icon {
+  display: block;
+
+  width: 15px !important;
+
+  height: 15px !important;
+
+  margin: 0 !important;
+}
+
+/* =========================================================
+   PARTE INFERIOR
+   ========================================================= */
+
+.shared-sidebar-bottom {
+  margin-top: auto;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+  width: 100%;
+}
+
+/* =========================================================
+   ROL
+   ========================================================= */
+
+.shared-role-card {
+  width: 100%;
+
+  min-height: 60px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 10px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e5ebf2;
+
+  border-radius: 9px;
+
+  background: #f8fafc;
+}
+
+.shared-role-icon {
+  position: relative;
+
+  width: 29px;
+
+  height: 29px;
+
+  flex: 0 0 29px;
+
+  display: block;
+
+  overflow: hidden;
+
+  border-radius: 8px;
+
+  color: #2369dc;
+
+  background: #e9f1ff;
+
+  line-height: 0;
+}
+
+.shared-role-icon .icon {
+  position: absolute;
+
+  left: 50%;
+
+  top: 50%;
+
+  display: block;
+
+  width: 15px !important;
+
+  height: 15px !important;
+
+  margin: 0 !important;
+
+  transform:
+    translate(-50%, -50%);
+}
+
+.shared-role-card > div {
+  min-width: 0;
+}
+
+.shared-role-card strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #31455f;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.shared-role-card div > span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #96a3b2;
+
+  font-size: 8px;
+
+  line-height: 1.25;
+}
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+.shared-logout {
+  width: 100%;
+
+  min-height: 36px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 0 10px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e3e9f0;
+
+  border-radius: 8px;
+
+  color: #7b8a9c;
+
+  background: #ffffff;
+
+  font-family:
+    "DM Sans",
+    sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.shared-logout:hover {
+  color: #b84c4c;
+
+  border-color: #efd6d6;
+
+  background: #fff9f9;
+}
+
+.shared-logout .icon {
+  display: block;
+
+  width: 15px !important;
+
+  height: 15px !important;
+
+  margin: 0 !important;
+
+  flex: 0 0 15px;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 760px) {
+  .shared-sidebar {
+    position: static;
+
+    width: 100%;
+
+    min-width: 0;
+
+    min-height: auto;
+
+    height: auto;
+
+    flex: none;
+
+    padding: 14px;
+
+    border-right: 0;
+
+    border-bottom: 1px solid #e4ebf3;
+  }
+
+  .shared-section-label {
+    display: none;
+  }
+
+  .shared-sidebar-bottom {
+    display: none;
+  }
+
+  .shared-nav {
+    display: grid;
+
+    grid-template-columns:
+      repeat(
+        4,
+        minmax(0, 1fr)
+      );
+
+    gap: 5px;
+  }
+
+  .shared-nav button {
+    justify-content: center;
+
+    min-height: 40px;
+
+    padding: 0 5px;
+  }
+
+  .shared-nav button > span:last-child {
+    display: none;
+  }
+}

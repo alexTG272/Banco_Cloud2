@@ -1,0 +1,18 @@
+
+services:
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: bancocloud-rabbitmq
+    hostname: bancocloud-rabbitmq
+    ports:
+      - "5672:5672"
+      - "127.0.0.1:15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: bancocloud
+      RABBITMQ_DEFAULT_PASS: local_dev_password
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    restart: unless-stopped
+
+volumes:
+  rabbitmq_data:
