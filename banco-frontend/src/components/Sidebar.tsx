@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
   useLocation,
@@ -15,34 +16,29 @@ import "./Sidebar.css";
 
 function Sidebar() {
   const navigate = useNavigate();
-
   const location = useLocation();
 
-  const [rol, setRol] =
-    useState<string>("");
+  const [rol, setRol] = useState<string>("");
+  const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     let activo = true;
 
     const cargarRol = async () => {
       try {
-        const grupos =
-          await obtenerGrupos();
+        const grupos = await obtenerGrupos();
 
         if (!activo) {
           return;
         }
 
-        if (
-          grupos.includes("Empleado")
-        ) {
+        if (grupos.includes("Empleado")) {
           setRol("Empleado");
-        } else if (
-          grupos.includes("Cliente")
-        ) {
+        } else if (grupos.includes("Cliente")) {
           setRol("Cliente");
         } else {
           setRol("Sin rol");
+          navigate("/acceso-pendiente", { replace: true });
         }
       } catch (error) {
         console.error(
@@ -52,6 +48,11 @@ function Sidebar() {
 
         if (activo) {
           setRol("Sin rol");
+          navigate("/acceso-pendiente", { replace: true });
+        }
+      } finally {
+        if (activo) {
+          setCargando(false);
         }
       }
     };
@@ -61,35 +62,30 @@ function Sidebar() {
     return () => {
       activo = false;
     };
-  }, []);
+  }, [navigate]);
 
-  const esEmpleado =
-    rol === "Empleado";
+  const esEmpleado = rol === "Empleado";
+  const esCliente = rol === "Cliente";
 
-  const handleLogout =
-    async () => {
-      try {
-        await cerrarSesion();
+  const handleLogout = async () => {
+    try {
+      await cerrarSesion();
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
+  };
 
-        navigate("/");
-      } catch (error) {
-        console.error(
-          "Error al cerrar sesión:",
-          error
-        );
-      }
-    };
-
-  const esActivo = (
-    ruta: string
-  ) =>
+  const esActivo = (ruta: string) =>
     location.pathname === ruta;
+
+  if (cargando || (!esEmpleado && !esCliente)) {
+    return null;
+  }
 
   return (
     <aside className="shared-sidebar">
-      {/* =====================================================
-          MARCA
-         ===================================================== */}
+      {/* MARCA */}
 
       <div className="shared-brand">
         <span className="shared-brand-mark">
@@ -102,9 +98,7 @@ function Sidebar() {
         </span>
       </div>
 
-      {/* =====================================================
-          MENU
-         ===================================================== */}
+      {/* MENU */}
 
       <div className="shared-section-label">
         MENÚ PRINCIPAL
@@ -117,91 +111,65 @@ function Sidebar() {
         <button
           type="button"
           className={
-            esActivo("/dashboard")
-              ? "active"
-              : ""
+            esActivo("/dashboard") ? "active" : ""
           }
-          onClick={() =>
-            navigate("/dashboard")
-          }
+          onClick={() => navigate("/dashboard")}
         >
           <span className="shared-nav-icon">
             <Icon name="home" />
           </span>
 
-          <span>
-            Inicio
-          </span>
+          <span>Inicio</span>
         </button>
 
         <button
           type="button"
           className={
-            esActivo("/cuentas")
-              ? "active"
-              : ""
+            esActivo("/cuentas") ? "active" : ""
           }
-          onClick={() =>
-            navigate("/cuentas")
-          }
+          onClick={() => navigate("/cuentas")}
         >
           <span className="shared-nav-icon">
             <Icon name="wallet" />
           </span>
 
           <span>
-            {esEmpleado
-              ? "Todas las cuentas"
-              : "Mis cuentas"}
+            {esEmpleado ? "Todas las cuentas" : "Mis cuentas"}
           </span>
         </button>
 
         <button
           type="button"
           className={
-            esActivo("/solicitudes")
-              ? "active"
-              : ""
+            esActivo("/solicitudes") ? "active" : ""
           }
-          onClick={() =>
-            navigate("/solicitudes")
-          }
+          onClick={() => navigate("/solicitudes")}
         >
           <span className="shared-nav-icon">
             <Icon name="file" />
           </span>
 
-          <span>
-            Solicitudes
-          </span>
+          <span>Solicitudes</span>
         </button>
 
         {esEmpleado && (
           <button
             type="button"
             className={
-              esActivo("/empleado")
-                ? "active"
-                : ""
+              esActivo("/empleado") ? "active" : ""
             }
-            onClick={() =>
-              navigate("/empleado")
-            }
+            onClick={() => navigate("/empleado")}
           >
             <span className="shared-nav-icon">
               <Icon name="users" />
             </span>
 
-            <span>
-              Administración
-            </span>
+            <span>Administración</span>
           </button>
         )}
       </nav>
 
-      {/* =====================================================
-          PARTE INFERIOR
-         ===================================================== */}
+      {/* PARTE INFERIOR */}
 
       <div className="shared-sidebar-bottom">
         <div className="shared-role-card">
@@ -210,9 +178,7 @@ function Sidebar() {
           </span>
 
           <div>
-            <strong>
-              {rol || "Cargando..."}
-            </strong>
+            <strong>{rol}</strong>
 
             <span>
               {esEmpleado
@@ -225,15 +191,11 @@ function Sidebar() {
         <button
           type="button"
           className="shared-logout"
-          onClick={
-            handleLogout
-          }
+          onClick={handleLogout}
         >
           <Icon name="logout" />
 
-          <span>
-            Cerrar sesión
-          </span>
+          <span>Cerrar sesión</span>
         </button>
       </div>
     </aside>

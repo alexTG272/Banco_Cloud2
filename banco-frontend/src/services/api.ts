@@ -1,8 +1,9 @@
+
 import axios from "axios";
 import { fetchAuthSession } from "aws-amplify/auth";
 
 const api = axios.create({
-  baseURL: "https://crw0cnjdxj.execute-api.us-east-1.amazonaws.com",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080",
   headers: {
     "Content-Type": "application/json",
   },

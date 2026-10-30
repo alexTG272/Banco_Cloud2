@@ -1,9 +1,14 @@
+
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Icon from "./Icon";
 import "./Login.css";
-import { iniciarSesion } from "../services/authService";
+
+import {
+  iniciarSesion,
+  obtenerGrupos,
+} from "../services/authService";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -28,7 +33,16 @@ function Login() {
       );
 
       if (resultado.isSignedIn) {
-        navigate("/dashboard");
+        const grupos = await obtenerGrupos();
+
+        if (grupos.includes("Empleado")) {
+          navigate("/empleado", { replace: true });
+        } else if (grupos.includes("Cliente")) {
+          navigate("/dashboard", { replace: true });
+        } else {
+          navigate("/acceso-pendiente", { replace: true });
+        }
+
         return;
       }
 

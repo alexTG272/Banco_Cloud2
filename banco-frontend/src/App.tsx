@@ -1,10 +1,12 @@
+
+import { useEffect, useState } from "react";
 import {
   BrowserRouter,
   Navigate,
   Route,
   Routes,
+  useNavigate,
 } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 import Login from "./components/Login";
 import Registro from "./pages/Registro";
@@ -15,91 +17,199 @@ import Empleado from "./pages/Empleado";
 import AuthTest from "./pages/AuthTest";
 
 import {
+  cerrarSesion,
   obtenerGrupos,
   obtenerUsuarioActual,
 } from "./services/authService";
 
-function RutaProtegida({
-  children,
-}: {
+type Rol = "Cliente" | "Empleado";
+
+interface RutaConRolProps {
   children: React.ReactNode;
-}) {
+  rolesPermitidos?: Rol[];
+  soloSinRol?: boolean;
+}
+
+function AccesoPendiente() {
+  const navigate = useNavigate();
+  const [cerrando, setCerrando] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      setCerrando(true);
+      await cerrarSesion();
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      setCerrando(false);
+    }
+  };
+
+  return (
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px",
+        background: "#f5f7fb",
+      }}
+    >
+      <section
+        style={{
+          width: "100%",
+          maxWidth: "520px",
+          padding: "40px",
+          background: "#ffffff",
+          border: "1px solid #e5eaf2",
+          borderRadius: "16px",
+          textAlign: "center",
+          boxShadow: "0 8px 30px rgba(20, 40, 80, 0.06)",
+        }}
+      >
+        <div style={{ fontSize: "42px", marginBottom: "16px" }}>
+          🔒
+        </div>
+
+        <p
+          style={{
+            color: "#64748b",
+            fontSize: "12px",
+            fontWeight: 700,
+            letterSpacing: "1.5px",
+          }}
+        >
+          CONTROL DE ACCESO
+        </p>
+
+        <h1
+          style={{
+            color: "#17233c",
+            fontSize: "25px",
+            marginBottom: "12px",
+          }}
+        >
+          Acceso pendiente de autorización
+        </h1>
+
+        <p
+          style={{
+            color: "#64748b",
+            lineHeight: 1.7,
+            marginBottom: "26px",
+          }}
+        >
+          Tu cuenta fue registrada correctamente, pero todavía
+          no tienes un rol asignado en BancoCloud.
+          <br />
+          <br />
+          Un empleado debe autorizar tu acceso antes de que
+          puedas utilizar las funcionalidades bancarias.
+        </p>
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          disabled={cerrando}
+          style={{
+            width: "100%",
+            padding: "13px",
+            border: "none",
+            borderRadius: "9px",
+            background: "#2457c5",
+            color: "#ffffff",
+            fontWeight: 600,
+            cursor: cerrando ? "wait" : "pointer",
+          }}
+        >
+          {cerrando ? "Cerrando sesión..." : "Cerrar sesión"}
+        </button>
+      </section>
+    </main>
+  );
+}
+
+function RutaConRol({
+  children,
+  rolesPermitidos = ["Cliente", "Empleado"],
+  soloSinRol = false,
+}: RutaConRolProps) {
   const [cargando, setCargando] = useState(true);
   const [autenticado, setAutenticado] = useState(false);
+  const [rol, setRol] = useState<Rol | null>(null);
 
   useEffect(() => {
-    const verificarSesion = async () => {
+    let activo = true;
+
+    const verificarAcceso = async () => {
       try {
         const usuario = await obtenerUsuarioActual();
 
-        setAutenticado(usuario !== null);
-      } catch (error) {
-        console.error(
-          "Error al verificar la sesión:",
-          error
-        );
+        if (!usuario) {
+          if (activo) {
+            setAutenticado(false);
+          }
+          return;
+        }
 
-        setAutenticado(false);
+        const grupos = await obtenerGrupos();
+
+        const rolActual: Rol | null = grupos.includes("Empleado")
+          ? "Empleado"
+          : grupos.includes("Cliente")
+            ? "Cliente"
+            : null;
+
+        if (activo) {
+          setAutenticado(true);
+          setRol(rolActual);
+        }
+      } catch (error) {
+        console.error("Error al verificar permisos:", error);
+
+        if (activo) {
+          setAutenticado(false);
+          setRol(null);
+        }
       } finally {
-        setCargando(false);
+        if (activo) {
+          setCargando(false);
+        }
       }
     };
 
-    verificarSesion();
+    verificarAcceso();
+
+    return () => {
+      activo = false;
+    };
   }, []);
 
   if (cargando) {
-    return <p>Verificando sesión...</p>;
+    return <p>Verificando permisos de acceso...</p>;
   }
 
   if (!autenticado) {
     return <Navigate to="/" replace />;
   }
 
-  return children;
-}
+  // Esta ruta es exclusivamente para usuarios autenticados sin rol.
+  if (soloSinRol) {
+    if (rol !== null) {
+      return <Navigate to="/dashboard" replace />;
+    }
 
-function RutaEmpleado({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [cargando, setCargando] = useState(true);
-  const [esEmpleado, setEsEmpleado] = useState(false);
-
-  useEffect(() => {
-    const verificarRol = async () => {
-      try {
-        const usuario = await obtenerUsuarioActual();
-
-        if (!usuario) {
-          setEsEmpleado(false);
-          return;
-        }
-
-        const grupos = await obtenerGrupos();
-
-        setEsEmpleado(grupos.includes("Empleado"));
-      } catch (error) {
-        console.error(
-          "Error al verificar el rol:",
-          error
-        );
-
-        setEsEmpleado(false);
-      } finally {
-        setCargando(false);
-      }
-    };
-
-    verificarRol();
-  }, []);
-
-  if (cargando) {
-    return <p>Verificando permisos...</p>;
+    return <AccesoPendiente />;
   }
 
-  if (!esEmpleado) {
+  // Un usuario autenticado sin rol no puede entrar al sistema bancario.
+  if (rol === null) {
+    return <Navigate to="/acceso-pendiente" replace />;
+  }
+
+  // Un usuario con rol no autorizado para esta ruta vuelve al dashboard.
+  if (!rolesPermitidos.includes(rol)) {
     return <Navigate to="/dashboard" replace />;
   }
 
@@ -110,74 +220,67 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Login */}
+        <Route path="/" element={<Login />} />
+
+        <Route path="/registro" element={<Registro />} />
+
         <Route
-          path="/"
-          element={<Login />}
+          path="/acceso-pendiente"
+          element={
+            <RutaConRol soloSinRol>
+              <></>
+            </RutaConRol>
+          }
         />
 
-        {/* Registro */}
-        <Route
-          path="/registro"
-          element={<Registro />}
-        />
-
-        {/* Dashboard */}
         <Route
           path="/dashboard"
           element={
-            <RutaProtegida>
+            <RutaConRol>
               <Dashboard />
-            </RutaProtegida>
+            </RutaConRol>
           }
         />
 
-        {/* Cuentas */}
         <Route
           path="/cuentas"
           element={
-            <RutaProtegida>
+            <RutaConRol>
               <Cuentas />
-            </RutaProtegida>
+            </RutaConRol>
           }
         />
 
-        {/* Solicitudes */}
         <Route
           path="/solicitudes"
           element={
-            <RutaProtegida>
+            <RutaConRol>
               <Solicitudes />
-            </RutaProtegida>
+            </RutaConRol>
           }
         />
 
-        {/* Panel de empleado */}
         <Route
           path="/empleado"
           element={
-            <RutaEmpleado>
+            <RutaConRol rolesPermitidos={["Empleado"]}>
               <Empleado />
-            </RutaEmpleado>
+            </RutaConRol>
           }
         />
 
-        {/* Prueba de autenticación */}
         <Route
           path="/auth-test"
           element={
-            <RutaProtegida>
+            <RutaConRol rolesPermitidos={["Empleado"]}>
               <AuthTest />
-            </RutaProtegida>
+            </RutaConRol>
           }
         />
 
-        {/* Ruta inexistente */}
         <Route
           path="*"
-          element={
-            <Navigate to="/" replace />
-          }
+          element={<Navigate to="/" replace />}
         />
       </Routes>
     </BrowserRouter>

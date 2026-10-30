@@ -1,3 +1,4 @@
+
 package cl.duoc.solicitudes_service.messaging;
 
 import com.rabbitmq.client.Channel;
@@ -28,6 +29,15 @@ public class SolicitudEventConsumer {
             if (evento == null) {
                 throw new IllegalArgumentException(
                         "El evento de solicitud no puede ser nulo");
+            }
+
+            if (evento.solicitudId() == null
+                    || evento.cliente() == null
+                    || evento.cliente().isBlank()
+                    || evento.estado() == null
+                    || evento.estado().isBlank()) {
+                throw new IllegalArgumentException(
+                        "El evento contiene datos obligatorios inválidos");
             }
 
             log.info(
