@@ -1,5 +1,6 @@
 package cl.duoc.solicitudes_service.service;
 
+
 import java.util.Map;
 
 import org.springframework.amqp.core.Binding;
@@ -34,7 +35,8 @@ public class RabbitMQAdminService {
         validarNombre(nombre);
 
         if (!StringUtils.hasText(tipo)) {
-            throw new IllegalArgumentException("El tipo de exchange es obligatorio");
+            throw new IllegalArgumentException(
+                    "El tipo de exchange es obligatorio");
         }
 
         Exchange exchange;
@@ -42,8 +44,10 @@ public class RabbitMQAdminService {
         switch (tipo.trim().toLowerCase()) {
             case "direct" ->
                 exchange = new DirectExchange(nombre, true, false);
+
             case "topic" ->
                 exchange = new TopicExchange(nombre, true, false);
+
             default ->
                 throw new IllegalArgumentException(
                         "Tipo no válido. Utiliza direct o topic");
@@ -64,7 +68,7 @@ public class RabbitMQAdminService {
 
         validarNombre(nombreCola);
         validarNombre(nombreExchange);
-        validarNombre(routingKey);
+        validarRoutingKey(routingKey);
 
         Binding binding = new Binding(
                 nombreCola,
@@ -83,7 +87,7 @@ public class RabbitMQAdminService {
 
         validarNombre(nombreCola);
         validarNombre(nombreExchange);
-        validarNombre(routingKey);
+        validarRoutingKey(routingKey);
 
         Binding binding = new Binding(
                 nombreCola,
@@ -98,9 +102,23 @@ public class RabbitMQAdminService {
     private void validarNombre(String nombre) {
         if (!StringUtils.hasText(nombre)
                 || !nombre.matches("[a-zA-Z0-9._-]{1,200}")) {
+
             throw new IllegalArgumentException(
                     "El nombre no es válido: utiliza entre 1 y 200 caracteres "
                     + "alfanuméricos, puntos, guiones o guiones bajos");
         }
     }
+
+    private void validarRoutingKey(String routingKey) {
+        if (!StringUtils.hasText(routingKey)
+                || !routingKey.matches(
+                        "[a-zA-Z0-9_-]+(?:\\.(?:[a-zA-Z0-9_-]+|\\*|#))*")
+                || routingKey.length() > 200) {
+
+            throw new IllegalArgumentException(
+                    "La routing key no es válida. Utiliza segmentos separados "
+                    + "por puntos y, para exchanges topic, los comodines * o #");
+        }
+    }
 }
+

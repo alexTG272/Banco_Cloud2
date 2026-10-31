@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
@@ -13,8 +14,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-//Modificado
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Bean
@@ -35,6 +36,10 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.OPTIONS, "/**")
                     .permitAll()
+
+                // Administración RabbitMQ: solo empleados
+                .requestMatchers("/api/admin/rabbitmq/**")
+                    .hasRole("Empleado")
 
                 .requestMatchers("/api/admin/usuarios/**")
                     .hasRole("Empleado")

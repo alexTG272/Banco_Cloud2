@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 import {
@@ -64,6 +65,7 @@ function Empleado() {
   const [mensajeUsuarios, setMensajeUsuarios] =
     useState("");
 
+  // Cargar solicitudes
   const cargarSolicitudes = async () => {
     try {
       setError("");
@@ -88,6 +90,7 @@ function Empleado() {
     }
   };
 
+  // Cargar usuarios
   const cargarUsuarios = async () => {
     try {
       setErrorUsuarios("");
@@ -112,11 +115,13 @@ function Empleado() {
     }
   };
 
+  // Carga inicial del panel
   useEffect(() => {
     cargarSolicitudes();
     cargarUsuarios();
   }, []);
 
+  // Aprobar solicitud
   const handleAprobar = async (
     id: number
   ) => {
@@ -146,6 +151,7 @@ function Empleado() {
     }
   };
 
+  // Rechazar solicitud
   const handleRechazar = async (
     id: number
   ) => {
@@ -175,6 +181,7 @@ function Empleado() {
     }
   };
 
+  // Autorizar usuario
   const handleAutorizar = async (
     username: string
   ) => {
@@ -183,9 +190,7 @@ function Empleado() {
       setMensajeUsuarios("");
       setProcesandoUsuario(username);
 
-      await autorizarUsuario(
-        username
-      );
+      await autorizarUsuario(username);
 
       setMensajeUsuarios(
         "El acceso del usuario fue autorizado correctamente."
@@ -206,39 +211,37 @@ function Empleado() {
     }
   };
 
+  // Estadísticas de solicitudes
   const pendientes =
     solicitudes.filter(
       (solicitud) =>
-        solicitud.estado ===
-        "PENDIENTE"
+        solicitud.estado === "PENDIENTE"
     ).length;
 
   const aprobadas =
     solicitudes.filter(
       (solicitud) =>
-        solicitud.estado ===
-        "APROBADA"
+        solicitud.estado === "APROBADA"
     ).length;
 
   const rechazadas =
     solicitudes.filter(
       (solicitud) =>
-        solicitud.estado ===
-        "RECHAZADA"
+        solicitud.estado === "RECHAZADA"
     ).length;
 
+  // Usuarios pendientes de autorización
   const noAutorizados =
     usuarios.filter(
       (usuario) =>
-        usuario.rol !==
-          "Empleado" &&
+        usuario.rol !== "Empleado" &&
         !usuario.autorizado
     ).length;
 
   /*
    * Loading inicial:
-   * esperamos a que terminen ambas cargas para
-   * mostrar el panel completo.
+   * esperamos a que terminen ambas cargas
+   * para mostrar el panel completo.
    */
   const cargandoPanel =
     cargando && cargandoUsuarios;
@@ -264,9 +267,7 @@ function Empleado() {
 
       <main className="employee-main">
 
-        {/* =========================================
-            HEADER
-           ========================================= */}
+        {/* HEADER */}
 
         <header className="employee-header">
           <div>
@@ -290,9 +291,7 @@ function Empleado() {
             </div>
 
             <div>
-              <strong>
-                Empleado
-              </strong>
+              <strong>Empleado</strong>
 
               <span>
                 Sesión activa
@@ -301,9 +300,7 @@ function Empleado() {
           </div>
         </header>
 
-        {/* =========================================
-            HERO
-           ========================================= */}
+        {/* HERO */}
 
         <section className="employee-hero">
           <div>
@@ -326,9 +323,7 @@ function Empleado() {
           </div>
         </section>
 
-        {/* =========================================
-            ESTADÍSTICAS
-           ========================================= */}
+        {/* ESTADÍSTICAS */}
 
         <section className="stats-grid">
           <article className="stat-card">
@@ -337,9 +332,7 @@ function Empleado() {
             </div>
 
             <div>
-              <span>
-                Total solicitudes
-              </span>
+              <span>Total solicitudes</span>
 
               <strong>
                 {solicitudes.length}
@@ -353,13 +346,9 @@ function Empleado() {
             </div>
 
             <div>
-              <span>
-                Pendientes
-              </span>
+              <span>Pendientes</span>
 
-              <strong>
-                {pendientes}
-              </strong>
+              <strong>{pendientes}</strong>
             </div>
           </article>
 
@@ -369,13 +358,9 @@ function Empleado() {
             </div>
 
             <div>
-              <span>
-                Aprobadas
-              </span>
+              <span>Aprobadas</span>
 
-              <strong>
-                {aprobadas}
-              </strong>
+              <strong>{aprobadas}</strong>
             </div>
           </article>
 
@@ -385,13 +370,9 @@ function Empleado() {
             </div>
 
             <div>
-              <span>
-                Rechazadas
-              </span>
+              <span>Rechazadas</span>
 
-              <strong>
-                {rechazadas}
-              </strong>
+              <strong>{rechazadas}</strong>
             </div>
           </article>
         </section>
@@ -433,8 +414,7 @@ function Empleado() {
             <div className="empty-state">
               Cargando solicitudes...
             </div>
-          ) : solicitudes.length ===
-            0 ? (
+          ) : solicitudes.length === 0 ? (
             <div className="empty-state">
               <div className="empty-icon">
                 ▤
@@ -451,105 +431,83 @@ function Empleado() {
             </div>
           ) : (
             <div className="request-list">
-              {solicitudes.map(
-                (solicitud) => (
-                  <article
-                    className="request-row"
-                    key={solicitud.id}
-                  >
-                    <div className="request-main">
+              {solicitudes.map((solicitud) => (
+                <article
+                  className="request-row"
+                  key={solicitud.id}
+                >
+                  <div className="request-main">
+                    <div className="request-title-row">
+                      <strong>
+                        Solicitud #{solicitud.id}
+                      </strong>
 
-                      <div className="request-title-row">
-                        <strong>
-                          Solicitud #
-                          {solicitud.id}
-                        </strong>
-
-                        <span
-                          className={badgeClass(
-                            solicitud.estado
-                          )}
-                        >
-                          {solicitud.estado}
-                        </span>
-                      </div>
-
-                      <span className="request-client">
-                        Cliente:{" "}
-                        {solicitud.cliente}
+                      <span
+                        className={badgeClass(
+                          solicitud.estado
+                        )}
+                      >
+                        {solicitud.estado}
                       </span>
-
-                      <div className="request-meta">
-
-                        <span>
-                          {
-                            solicitud.tipoCuenta
-                          }
-                        </span>
-
-                        <span>
-                          $
-                          {solicitud.montoInicial.toLocaleString(
-                            "es-CL"
-                          )}
-                        </span>
-
-                        <span>
-                          {new Date(
-                            solicitud.fechaSolicitud
-                          ).toLocaleString(
-                            "es-CL"
-                          )}
-                        </span>
-
-                      </div>
-
                     </div>
 
-                    {solicitud.estado ===
-                      "PENDIENTE" && (
-                      <div className="request-actions">
+                    <span className="request-client">
+                      Cliente: {solicitud.cliente}
+                    </span>
 
-                        <button
-                          type="button"
-                          className="approve-button"
-                          onClick={() =>
-                            handleAprobar(
-                              solicitud.id
-                            )
-                          }
-                          disabled={
-                            procesando ===
-                            solicitud.id
-                          }
-                        >
-                          {procesando ===
-                          solicitud.id
-                            ? "Procesando..."
-                            : "Aprobar"}
-                        </button>
+                    <div className="request-meta">
+                      <span>
+                        {solicitud.tipoCuenta}
+                      </span>
 
-                        <button
-                          type="button"
-                          className="reject-button"
-                          onClick={() =>
-                            handleRechazar(
-                              solicitud.id
-                            )
-                          }
-                          disabled={
-                            procesando ===
-                            solicitud.id
-                          }
-                        >
-                          Rechazar
-                        </button>
+                      <span>
+                        $
+                        {solicitud.montoInicial.toLocaleString(
+                          "es-CL"
+                        )}
+                      </span>
 
-                      </div>
-                    )}
-                  </article>
-                )
-              )}
+                      <span>
+                        {new Date(
+                          solicitud.fechaSolicitud
+                        ).toLocaleString("es-CL")}
+                      </span>
+                    </div>
+                  </div>
+
+                  {solicitud.estado === "PENDIENTE" && (
+                    <div className="request-actions">
+                      <button
+                        type="button"
+                        className="approve-button"
+                        onClick={() =>
+                          handleAprobar(solicitud.id)
+                        }
+                        disabled={
+                          procesando === solicitud.id
+                        }
+                      >
+                        {procesando === solicitud.id
+                          ? "Procesando..."
+                          : "Aprobar"}
+                      </button>
+
+                      <button
+                        type="button"
+                        className="reject-button"
+                        onClick={() =>
+                          handleRechazar(solicitud.id)
+                        }
+                        disabled={
+                          procesando === solicitud.id
+                        }
+                      >
+                        Rechazar
+                      </button>
+                    </div>
+                  )}
+                </article>
+              ))}
             </div>
           )}
         </section>
@@ -559,7 +517,6 @@ function Empleado() {
            ========================================= */}
 
         <section className="content-card">
-
           <div className="section-heading">
             <div>
               <div className="section-kicker">
@@ -592,8 +549,7 @@ function Empleado() {
             <div className="empty-state">
               Cargando usuarios...
             </div>
-          ) : usuarios.length ===
-            0 ? (
+          ) : usuarios.length === 0 ? (
             <div className="empty-state">
               <div className="empty-icon">
                 ◯
@@ -610,104 +566,86 @@ function Empleado() {
             </div>
           ) : (
             <div className="user-list">
+              {usuarios.map((usuario) => (
+                <article
+                  className="user-row"
+                  key={usuario.username}
+                >
+                  <div className="user-avatar">
+                    {(usuario.email || "U")
+                      .charAt(0)
+                      .toUpperCase()}
+                  </div>
 
-              {usuarios.map(
-                (usuario) => (
-                  <article
-                    className="user-row"
-                    key={
-                      usuario.username
-                    }
-                  >
+                  <div className="user-main">
+                    <strong>
+                      {usuario.email || "Sin correo"}
+                    </strong>
 
-                    <div className="user-avatar">
-                      {(
-                        usuario.email ||
-                        "U"
-                      )
-                        .charAt(0)
-                        .toUpperCase()}
-                    </div>
+                    <span>
+                      {usuario.username}
+                    </span>
+                  </div>
 
-                    <div className="user-main">
-                      <strong>
-                        {usuario.email ||
-                          "Sin correo"}
-                      </strong>
+                  <div className="user-details">
+                    <span className="detail-label">
+                      Rol
+                    </span>
 
-                      <span>
-                        {usuario.username}
+                    <span className="detail-value">
+                      {usuario.rol}
+                    </span>
+                  </div>
+
+                  <div className="user-details">
+                    <span className="detail-label">
+                      Estado
+                    </span>
+
+                    <span className="detail-value">
+                      {usuario.estado}
+                    </span>
+                  </div>
+
+                  <div className="user-access">
+                    {usuario.rol === "Empleado" ? (
+                      <span className="access-badge employee">
+                        Empleado
                       </span>
-                    </div>
-
-                    <div className="user-details">
-                      <span className="detail-label">
-                        Rol
+                    ) : usuario.autorizado ? (
+                      <span className="access-badge authorized">
+                        Autorizado
                       </span>
-
-                      <span className="detail-value">
-                        {usuario.rol}
+                    ) : (
+                      <span className="access-badge pending">
+                        No autorizado
                       </span>
-                    </div>
+                    )}
+                  </div>
 
-                    <div className="user-details">
-                      <span className="detail-label">
-                        Estado
-                      </span>
-
-                      <span className="detail-value">
-                        {usuario.estado}
-                      </span>
-                    </div>
-
-                    <div className="user-access">
-                      {usuario.rol ===
-                      "Empleado" ? (
-                        <span className="access-badge employee">
-                          Empleado
-                        </span>
-                      ) : usuario.autorizado ? (
-                        <span className="access-badge authorized">
-                          Autorizado
-                        </span>
-                      ) : (
-                        <span className="access-badge pending">
-                          No autorizado
-                        </span>
-                      )}
-                    </div>
-
-                    {usuario.rol !==
-                      "Empleado" &&
-                      !usuario.autorizado && (
-                        <button
-                          type="button"
-                          className="authorize-button"
-                          onClick={() =>
-                            handleAutorizar(
-                              usuario.username
-                            )
-                          }
-                          disabled={
-                            procesandoUsuario ===
-                            usuario.username
-                          }
-                        >
-                          {procesandoUsuario ===
-                          usuario.username
-                            ? "Autorizando..."
-                            : "Autorizar acceso"}
-                        </button>
-                      )}
-
-                  </article>
-                )
-              )}
-
+                  {usuario.rol !== "Empleado" &&
+                    !usuario.autorizado && (
+                      <button
+                        type="button"
+                        className="authorize-button"
+                        onClick={() =>
+                          handleAutorizar(usuario.username)
+                        }
+                        disabled={
+                          procesandoUsuario === usuario.username
+                        }
+                      >
+                        {procesandoUsuario === usuario.username
+                          ? "Autorizando..."
+                          : "Autorizar acceso"}
+                      </button>
+                    )}
+                </article>
+              ))}
             </div>
           )}
-
         </section>
+
       </main>
     </div>
   );

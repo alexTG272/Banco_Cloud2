@@ -1,0 +1,1225 @@
+/* ==========================================
+   BANCOCLOUD - RABBITMQ
+========================================== */
+
+.rabbit-page {
+  min-height: 100vh;
+  min-height: 100svh;
+  width: 100%;
+  display: flex;
+  background: #f5f7fb;
+  color: #172033;
+  font-family: "DM Sans", sans-serif;
+}
+
+.rabbit-page *,
+.rabbit-page *::before,
+.rabbit-page *::after {
+  box-sizing: border-box;
+}
+
+.rabbit-main {
+  flex: 1;
+  min-width: 0;
+  padding: 34px 42px 50px;
+}
+
+.rabbit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.rabbit-breadcrumb {
+  margin-bottom: 8px;
+  color: #8793a5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.rabbit-header h1 {
+  margin: 0;
+  color: #172033;
+  font: 750 30px/1.2 Manrope, sans-serif;
+  letter-spacing: -0.7px;
+}
+
+.rabbit-header p {
+  margin: 8px 0 0;
+  color: #7b8798;
+  font-size: 13px;
+}
+
+.rabbit-header-tag {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 14px;
+  border: 1px solid #e5ebf2;
+  border-radius: 10px;
+  color: #66768b;
+  background: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.rabbit-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2ca36b;
+}
+
+/* ==========================================
+   HERO
+========================================== */
+
+.rabbit-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  min-height: 190px;
+  margin-bottom: 30px;
+  padding: 32px 36px;
+  overflow: hidden;
+  border-radius: 17px;
+  color: #ffffff;
+  background: linear-gradient(120deg, #102e56, #2369dc);
+  box-shadow: 0 13px 32px rgba(26, 72, 133, 0.13);
+}
+
+.rabbit-hero::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  opacity: 0.13;
+  background-image: radial-gradient(#ffffff 1px, transparent 1px);
+  background-size: 23px 23px;
+}
+
+.rabbit-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 660px;
+}
+
+.rabbit-eyebrow {
+  display: inline-block;
+  margin-bottom: 11px;
+  color: #b9d6ff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+}
+
+.rabbit-hero h2 {
+  margin: 0;
+  color: #ffffff;
+  font: 750 26px/1.2 Manrope, sans-serif;
+  letter-spacing: -0.6px;
+}
+
+.rabbit-hero p {
+  max-width: 600px;
+  margin: 11px 0 0;
+  color: #d6e6fc;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.rabbit-hero-icon {
+  position: relative;
+  z-index: 1;
+  width: 100px;
+  height: 100px;
+  flex: 0 0 100px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff35;
+  border-radius: 26px;
+  background: #ffffff15;
+  transform: rotate(-7deg);
+}
+
+.rabbit-hero-icon span {
+  color: #ffffff;
+  font: 800 23px Manrope, sans-serif;
+  letter-spacing: -1px;
+}
+
+/* ==========================================
+   SECCIONES
+========================================== */
+
+.rabbit-section,
+.rabbit-form-card,
+.rabbit-flow-card,
+.rabbit-result-card,
+.rabbit-history-card {
+  min-width: 0;
+  padding: 25px;
+  border: 1px solid #e7ebf2;
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(28, 42, 68, 0.035);
+}
+
+.rabbit-section {
+  margin-bottom: 22px;
+}
+
+.rabbit-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 21px;
+}
+
+.rabbit-section-kicker {
+  display: block;
+  margin-bottom: 7px;
+  color: #8794a7;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.rabbit-section-heading h2 {
+  margin: 0;
+  color: #1c2b42;
+  font: 750 18px/1.3 Manrope, sans-serif;
+  letter-spacing: -0.35px;
+}
+
+.rabbit-section-heading p {
+  margin: 6px 0 0;
+  color: #8590a0;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   INFORMACIÓN DEL BROKER
+========================================== */
+
+.rabbit-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.rabbit-info-card {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 17px;
+  border: 1px solid #e9edf3;
+  border-radius: 12px;
+  background: #fbfcfe;
+}
+
+.rabbit-info-icon {
+  width: 41px;
+  height: 41px;
+  flex: 0 0 41px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.rabbit-info-icon.exchange {
+  color: #326dca;
+  background: #edf4ff;
+}
+
+.rabbit-info-icon.queue {
+  color: #26966b;
+  background: #eaf8f1;
+}
+
+.rabbit-info-icon.routing {
+  color: #9867cb;
+  background: #f5effc;
+}
+
+.rabbit-info-card > div:last-child {
+  min-width: 0;
+}
+
+.rabbit-info-card span {
+  display: block;
+  margin-bottom: 5px;
+  color: #8995a6;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.rabbit-info-card strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: #2c3d54;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.rabbit-info-card small {
+  display: block;
+  margin-top: 5px;
+  color: #96a1af;
+  font-size: 9px;
+}
+
+/* ==========================================
+   ESPACIO DE TRABAJO
+========================================== */
+
+.rabbit-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.rabbit-form-card,
+.rabbit-flow-card {
+  min-width: 0;
+}
+
+.rabbit-card-icon {
+  width: 37px;
+  height: 37px;
+  flex: 0 0 37px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: #2866c6;
+  background: #edf4ff;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+/* ==========================================
+   FORMULARIO DE MENSAJES
+========================================== */
+
+.rabbit-form-card label {
+  display: block;
+  margin-bottom: 9px;
+  color: #34445b;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.rabbit-form-card textarea {
+  display: block;
+  width: 100%;
+  min-height: 135px;
+  padding: 15px;
+  resize: vertical;
+  border: 1px solid #dfe6ef;
+  border-radius: 11px;
+  outline: none;
+  color: #26364c;
+  background: #fbfcfe;
+  font: 12px/1.6 "DM Sans", sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rabbit-form-card textarea::placeholder {
+  color: #a4adba;
+}
+
+.rabbit-form-card textarea:focus {
+  border-color: #4c82d8;
+  box-shadow: 0 0 0 3px rgba(55, 112, 202, 0.1);
+  background: #ffffff;
+}
+
+.rabbit-form-card textarea:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.rabbit-input-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  color: #99a3b1;
+  font-size: 9px;
+}
+
+.rabbit-send-button {
+  width: 100%;
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 17px;
+  padding: 12px 17px;
+  border: 0;
+  border-radius: 10px;
+  color: #ffffff;
+  background: linear-gradient(110deg, #2056ae, #3478dc);
+  box-shadow: 0 5px 13px rgba(35, 101, 199, 0.17);
+  font: 700 11px "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+}
+
+.rabbit-send-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(35, 101, 199, 0.24);
+}
+
+.rabbit-send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.rabbit-send-button > span:first-child {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.rabbit-button-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ffffff65;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: rabbit-spin 0.7s linear infinite;
+}
+
+@keyframes rabbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================
+   MENSAJES DE RESULTADO
+========================================== */
+
+.rabbit-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 15px;
+  padding: 12px 13px;
+  border-radius: 9px;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.rabbit-alert > span {
+  font-weight: 800;
+}
+
+.rabbit-alert.success {
+  color: #26744f;
+  border: 1px solid #d7eee1;
+  background: #f0faf4;
+}
+
+.rabbit-alert.error {
+  color: #ad444d;
+  border: 1px solid #f2d9dc;
+  background: #fff5f5;
+}
+
+/* ==========================================
+   FLUJO DE MENSAJERÍA
+========================================== */
+
+.rabbit-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 4px 0;
+}
+
+.rabbit-flow-step {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 51px;
+}
+
+.rabbit-flow-number {
+  width: 35px;
+  height: 35px;
+  flex: 0 0 35px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #dce8fa;
+  border-radius: 10px;
+  color: #3472cf;
+  background: #f0f5ff;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.rabbit-flow-step strong {
+  display: block;
+  color: #34445b;
+  font-size: 11px;
+}
+
+.rabbit-flow-step span {
+  display: block;
+  margin-top: 3px;
+  color: #8d99a9;
+  font-size: 9px;
+}
+
+.rabbit-flow-line {
+  width: 1px;
+  height: 14px;
+  margin-left: 17px;
+  background: #dce5f0;
+}
+
+/* ==========================================
+   RESULTADO DEL MENSAJE
+========================================== */
+
+.rabbit-result-card {
+  margin-bottom: 22px;
+}
+
+.rabbit-result-badge {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 7px 10px;
+  border-radius: 7px;
+  font-size: 9px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.rabbit-result-badge.processed {
+  color: #238052;
+  background: #eaf8f0;
+}
+
+.rabbit-result-badge.failed {
+  color: #b84b55;
+  background: #fff0f1;
+}
+
+.rabbit-result-badge.pending {
+  color: #a87920;
+  background: #fff7e5;
+}
+
+.rabbit-result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.rabbit-result-grid > div {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #e9edf3;
+  border-radius: 10px;
+  background: #fbfcfe;
+}
+
+.rabbit-result-grid span {
+  display: block;
+  margin-bottom: 7px;
+  color: #8b97a7;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.rabbit-result-grid strong {
+  display: block;
+  color: #33445c;
+  font-size: 10px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.rabbit-result-grid .rabbit-id {
+  font-family: monospace;
+  font-size: 9px;
+}
+
+.rabbit-result-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #edf0f4;
+}
+
+.rabbit-ack-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #758397;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.rabbit-ack-indicator > span {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #d2a24c;
+}
+
+.rabbit-ack-indicator > span.ack-active {
+  background: #2ca36b;
+  box-shadow: 0 0 0 3px #e4f5eb;
+}
+
+.rabbit-refresh-button {
+  min-height: 34px;
+  padding: 8px 13px;
+  border: 1px solid #dce5f0;
+  border-radius: 8px;
+  color: #386bb5;
+  background: #ffffff;
+  font: 600 10px "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.rabbit-refresh-button:hover:not(:disabled) {
+  background: #f3f7fd;
+}
+
+.rabbit-refresh-button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+/* ==========================================
+   HISTORIAL
+========================================== */
+
+.rabbit-history-card {
+  margin-bottom: 22px;
+}
+
+.rabbit-history-count {
+  padding: 7px 10px;
+  border-radius: 7px;
+  color: #58749a;
+  background: #f0f5fc;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.rabbit-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 170px;
+  padding: 25px;
+  border: 1px dashed #dfe6ef;
+  border-radius: 11px;
+  background: #fbfcfe;
+  text-align: center;
+}
+
+.rabbit-empty-icon {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+  border-radius: 13px;
+  color: #3974ce;
+  background: #edf4ff;
+  font-size: 21px;
+}
+
+.rabbit-empty strong {
+  color: #40516a;
+  font-size: 12px;
+}
+
+.rabbit-empty span {
+  margin-top: 6px;
+  color: #929eae;
+  font-size: 10px;
+}
+
+.rabbit-history-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.rabbit-history-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+  padding: 14px 2px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.rabbit-history-item:last-child {
+  border-bottom: 0;
+}
+
+.rabbit-history-symbol {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: #3472cf;
+  background: #edf4ff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.rabbit-history-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.rabbit-history-copy strong {
+  display: block;
+  overflow: hidden;
+  color: #34445b;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rabbit-history-copy span {
+  display: block;
+  margin-top: 5px;
+  color: #98a3b1;
+  font-size: 9px;
+}
+
+/* ==========================================
+   ADMINISTRACIÓN RABBITMQ
+========================================== */
+
+.rabbit-admin {
+  display: block;
+  width: 100%;
+  margin: 0 0 25px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e7ebf2;
+  border-radius: 15px;
+  box-shadow: 0 4px 18px rgba(28, 42, 68, 0.035);
+}
+
+.rabbit-admin-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.rabbit-admin-heading > div {
+  min-width: 0;
+}
+
+.rabbit-admin-heading h2 {
+  margin: 8px 0;
+  color: #1c2b42;
+  font: 750 22px/1.3 Manrope, sans-serif;
+}
+
+.rabbit-admin-heading p {
+  margin: 0;
+  color: #8590a0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.rabbit-admin-heading > button {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 10px 16px;
+  border: 1px solid #dce5f0;
+  border-radius: 9px;
+  color: #2866c6;
+  background: #ffffff;
+  font: 700 12px "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+}
+
+.rabbit-admin-heading > button:hover:not(:disabled) {
+  background: #f3f7fd;
+  border-color: #bfd1ea;
+}
+
+.rabbit-admin-heading > button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+/* Métricas */
+
+.rabbit-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.rabbit-admin-grid > .rabbit-admin-card {
+  min-width: 0;
+}
+
+.rabbit-admin-grid > .rabbit-admin-card > h3 {
+  margin: 8px 0 5px;
+  color: #1c2b42;
+  font: 750 27px/1.2 Manrope, sans-serif;
+}
+
+.rabbit-admin-grid > .rabbit-admin-card > p {
+  margin: 0;
+}
+
+.rabbit-admin-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 23px;
+  background: #fbfcfe;
+  border: 1px solid #e7ebf2;
+  border-radius: 12px;
+  transition: border-color 0.2s ease;
+}
+
+.rabbit-admin-card:hover {
+  border-color: #cbd8e9;
+}
+
+.rabbit-admin-card > span {
+  color: #8794a7;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.rabbit-admin-card h3 {
+  margin: 0 0 8px;
+  color: #26364c;
+  font: 700 16px Manrope, sans-serif;
+}
+
+.rabbit-admin-card p {
+  margin: 0 0 18px;
+  color: #8590a0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Pestañas */
+
+.rabbit-admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 5px;
+  margin-bottom: 20px;
+  background: #f3f6fb;
+  border-radius: 10px;
+}
+
+.rabbit-admin-tabs button {
+  flex: 1 1 120px;
+  min-height: 40px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #64748b;
+  background: transparent;
+  font: 600 12px "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rabbit-admin-tabs button:hover {
+  color: #2563eb;
+  background: #ffffff;
+}
+
+.rabbit-admin-tabs button.active {
+  color: #2563eb;
+  background: #ffffff;
+  border-color: #e5ebf2;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.06);
+}
+
+/* Tablas */
+
+.rabbit-admin-table {
+  width: 100%;
+  min-width: 650px;
+  margin-top: 12px;
+  margin-bottom: 36px !important;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.rabbit-admin-table + .rabbit-admin-grid {
+  margin-top: 36px;
+}
+
+.rabbit-admin-table th,
+.rabbit-admin-table td {
+  padding: 13px 14px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.rabbit-admin-table th {
+  color: #7c899b;
+  background: #f8fafd;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.rabbit-admin-table td {
+  color: #34445b;
+  overflow-wrap: anywhere;
+}
+
+.rabbit-admin-table tbody tr:hover {
+  background: #f8fafd;
+}
+
+.rabbit-admin-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.rabbit-admin-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 20px;
+  color: #238052;
+  background: #eaf8f0;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: lowercase;
+}
+
+/* Formularios */
+
+.rabbit-admin-card label {
+  display: block;
+  margin: 12px 0 7px;
+  color: #34445b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.rabbit-admin-card input,
+.rabbit-admin-card select {
+  display: block;
+  width: 100%;
+  min-height: 43px;
+  padding: 10px 12px;
+  border: 1px solid #dfe6ef;
+  border-radius: 9px;
+  outline: none;
+  background: #ffffff;
+  color: #26364c;
+  font: 13px "DM Sans", sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rabbit-admin-card input::placeholder {
+  color: #a4adba;
+}
+
+.rabbit-admin-card input:focus,
+.rabbit-admin-card select:focus {
+  border-color: #4c82d8;
+  box-shadow: 0 0 0 3px rgba(55, 112, 202, 0.1);
+}
+
+.rabbit-admin-card input:disabled,
+.rabbit-admin-card select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rabbit-admin-card button {
+  width: 100%;
+  min-height: 43px;
+  margin-top: 20px;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 9px;
+  background: linear-gradient(110deg, #2056ae, #3478dc);
+  color: #ffffff;
+  font: 700 13px "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.rabbit-admin-card button:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.rabbit-admin-card button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Acciones destructivas */
+
+.rabbit-admin-card.danger {
+  border-color: #f3dddd;
+}
+
+.rabbit-admin-card.danger button {
+  background: #dc4545;
+}
+
+.rabbit-admin-card.danger button:hover:not(:disabled) {
+  background: #bd3030;
+}
+
+/* Ayuda y alertas */
+
+.rabbit-admin-hint {
+  margin: 0 0 16px !important;
+  color: #8b97a7 !important;
+  font-size: 10px !important;
+}
+
+.rabbit-admin-alert {
+  margin: 0 0 17px;
+  padding: 13px 15px;
+  border-radius: 9px;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.rabbit-admin-alert.success {
+  color: #26744f;
+  border: 1px solid #d7eee1;
+  background: #f0faf4;
+}
+
+.rabbit-admin-alert.error {
+  color: #ad444d;
+  border: 1px solid #f2d9dc;
+  background: #fff5f5;
+}
+
+/* ==========================================
+   RESPONSIVE GENERAL
+========================================== */
+
+@media (max-width: 1100px) {
+  .rabbit-main {
+    padding: 28px 25px 40px;
+  }
+
+  .rabbit-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .rabbit-main {
+    padding: 22px 16px 35px;
+  }
+
+  .rabbit-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .rabbit-header h1 {
+    font-size: 25px;
+  }
+
+  .rabbit-hero {
+    min-height: 165px;
+    padding: 25px 22px;
+  }
+
+  .rabbit-hero h2 {
+    font-size: 21px;
+  }
+
+  .rabbit-hero-icon {
+    width: 67px;
+    height: 67px;
+    flex-basis: 67px;
+    border-radius: 18px;
+  }
+
+  .rabbit-hero-icon span {
+    font-size: 17px;
+  }
+
+  .rabbit-info-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rabbit-section,
+  .rabbit-form-card,
+  .rabbit-flow-card,
+  .rabbit-result-card,
+  .rabbit-history-card {
+    padding: 19px;
+  }
+
+  .rabbit-result-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rabbit-admin {
+    padding: 20px;
+  }
+
+  .rabbit-admin-heading {
+    flex-direction: column;
+  }
+
+  .rabbit-admin-heading > button {
+    width: 100%;
+  }
+
+  .rabbit-admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rabbit-admin-heading h2 {
+    font-size: 20px;
+  }
+
+  .rabbit-admin-tabs {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .rabbit-admin-tabs button {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .rabbit-admin-card {
+    padding: 18px;
+  }
+
+  .rabbit-admin-table {
+    min-width: 600px;
+  }
+
+  .rabbit-section-heading p,
+  .rabbit-hero p {
+    font-size: 13px;
+  }
+
+  .rabbit-info-card strong {
+    font-size: 12px;
+  }
+
+  .rabbit-info-card small {
+    font-size: 11px;
+  }
+
+  .rabbit-form-card label {
+    font-size: 13px;
+  }
+
+  .rabbit-form-card textarea {
+    font-size: 13px;
+  }
+
+  .rabbit-input-footer {
+    font-size: 11px;
+  }
+
+  .rabbit-flow-step strong {
+    font-size: 12px;
+  }
+
+  .rabbit-flow-step span {
+    font-size: 11px;
+  }
+
+  .rabbit-history-copy strong {
+    font-size: 12px;
+  }
+
+  .rabbit-history-copy span {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 440px) {
+  .rabbit-hero-icon {
+    display: none;
+  }
+
+  .rabbit-input-footer {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .rabbit-result-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .rabbit-refresh-button {
+    width: 100%;
+  }
+
+  .rabbit-history-item {
+    flex-wrap: wrap;
+  }
+
+  .rabbit-admin {
+    padding: 16px;
+  }
+
+}
+
+  .rabbit-admin-actions {
+    margin-top: 36px !important;
+  }
+
+ 

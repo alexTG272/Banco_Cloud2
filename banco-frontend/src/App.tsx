@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import Cuentas from "./pages/Cuentas";
 import Solicitudes from "./pages/Solicitudes";
 import Empleado from "./pages/Empleado";
+import RabbitMQ from "./pages/RabbitMQ.tsx";
 import AuthTest from "./pages/AuthTest";
 
 import {
@@ -194,7 +195,6 @@ function RutaConRol({
     return <Navigate to="/" replace />;
   }
 
-  // Esta ruta es exclusivamente para usuarios autenticados sin rol.
   if (soloSinRol) {
     if (rol !== null) {
       return <Navigate to="/dashboard" replace />;
@@ -203,12 +203,10 @@ function RutaConRol({
     return <AccesoPendiente />;
   }
 
-  // Un usuario autenticado sin rol no puede entrar al sistema bancario.
   if (rol === null) {
     return <Navigate to="/acceso-pendiente" replace />;
   }
 
-  // Un usuario con rol no autorizado para esta ruta vuelve al dashboard.
   if (!rolesPermitidos.includes(rol)) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -265,6 +263,15 @@ function App() {
           element={
             <RutaConRol rolesPermitidos={["Empleado"]}>
               <Empleado />
+            </RutaConRol>
+          }
+        />
+
+        <Route
+          path="/rabbitmq"
+          element={
+            <RutaConRol rolesPermitidos={["Empleado"]}>
+              <RabbitMQ />
             </RutaConRol>
           }
         />

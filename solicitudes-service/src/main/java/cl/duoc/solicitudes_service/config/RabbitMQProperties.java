@@ -9,6 +9,14 @@ public record RabbitMQProperties(
         String solicitudRoutingKey,
         String deadLetterExchange,
         String deadLetterQueue,
-        String deadLetterRoutingKey
+        String deadLetterRoutingKey,
+        String retryExchange,
+        String retryQueue,
+        String retryRoutingKey,
+        Integer retryTtl,
+        Integer maxAttempts,
+        String demoExchange,
+        String demoQueue,
+        String demoRoutingKey
 ) {
 }

@@ -28,9 +28,7 @@ function Sidebar() {
       try {
         const grupos = await obtenerGrupos();
 
-        if (!activo) {
-          return;
-        }
+        if (!activo) return;
 
         if (grupos.includes("Empleado")) {
           setRol("Empleado");
@@ -85,20 +83,13 @@ function Sidebar() {
 
   return (
     <aside className="shared-sidebar">
-      {/* MARCA */}
-
       <div className="shared-brand">
-        <span className="shared-brand-mark">
-          B
-        </span>
+        <span className="shared-brand-mark">B</span>
 
         <span className="shared-brand-name">
-          Banco
-          <span>Cloud</span>
+          Banco<span>Cloud</span>
         </span>
       </div>
-
-      {/* MENU */}
 
       <div className="shared-section-label">
         MENÚ PRINCIPAL
@@ -110,29 +101,23 @@ function Sidebar() {
       >
         <button
           type="button"
-          className={
-            esActivo("/dashboard") ? "active" : ""
-          }
+          className={esActivo("/dashboard") ? "active" : ""}
           onClick={() => navigate("/dashboard")}
         >
           <span className="shared-nav-icon">
             <Icon name="home" />
           </span>
-
           <span>Inicio</span>
         </button>
 
         <button
           type="button"
-          className={
-            esActivo("/cuentas") ? "active" : ""
-          }
+          className={esActivo("/cuentas") ? "active" : ""}
           onClick={() => navigate("/cuentas")}
         >
           <span className="shared-nav-icon">
             <Icon name="wallet" />
           </span>
-
           <span>
             {esEmpleado ? "Todas las cuentas" : "Mis cuentas"}
           </span>
@@ -140,36 +125,41 @@ function Sidebar() {
 
         <button
           type="button"
-          className={
-            esActivo("/solicitudes") ? "active" : ""
-          }
+          className={esActivo("/solicitudes") ? "active" : ""}
           onClick={() => navigate("/solicitudes")}
         >
           <span className="shared-nav-icon">
             <Icon name="file" />
           </span>
-
           <span>Solicitudes</span>
         </button>
 
         {esEmpleado && (
-          <button
-            type="button"
-            className={
-              esActivo("/empleado") ? "active" : ""
-            }
-            onClick={() => navigate("/empleado")}
-          >
-            <span className="shared-nav-icon">
-              <Icon name="users" />
-            </span>
+          <>
+            <button
+              type="button"
+              className={esActivo("/empleado") ? "active" : ""}
+              onClick={() => navigate("/empleado")}
+            >
+              <span className="shared-nav-icon">
+                <Icon name="users" />
+              </span>
+              <span>Administración</span>
+            </button>
 
-            <span>Administración</span>
-          </button>
+            <button
+              type="button"
+              className={esActivo("/rabbitmq") ? "active" : ""}
+              onClick={() => navigate("/rabbitmq")}
+            >
+              <span className="shared-nav-icon">
+                <Icon name="settings" />
+              </span>
+              <span>RabbitMQ</span>
+            </button>
+          </>
         )}
       </nav>
-
-      {/* PARTE INFERIOR */}
 
       <div className="shared-sidebar-bottom">
         <div className="shared-role-card">
@@ -179,7 +169,6 @@ function Sidebar() {
 
           <div>
             <strong>{rol}</strong>
-
             <span>
               {esEmpleado
                 ? "Acceso administrativo"
@@ -194,7 +183,6 @@ function Sidebar() {
           onClick={handleLogout}
         >
           <Icon name="logout" />
-
           <span>Cerrar sesión</span>
         </button>
       </div>
