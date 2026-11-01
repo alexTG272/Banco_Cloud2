@@ -88,7 +88,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(
             List.of(
                 "http://localhost:5173",
-                "https://main.d2ann3z9q7k9u4.amplifyapp.com"
+                "https://main.d2anm3z9q7k9u4.amplifyapp.com"
             )
         );
 
