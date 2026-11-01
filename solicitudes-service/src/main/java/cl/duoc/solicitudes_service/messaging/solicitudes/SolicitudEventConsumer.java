@@ -1,5 +1,5 @@
 
-package cl.duoc.solicitudes_service.messaging;
+package cl.duoc.solicitudes_service.messaging.solicitudes;
 
 import com.rabbitmq.client.Channel;
 
@@ -29,6 +29,7 @@ public class SolicitudEventConsumer {
 
     private final RabbitTemplate rabbitTemplate;
     private final RabbitMQProperties properties;
+    private final SolicitudEventProcessor eventProcessor;
 
     @Value("${app.rabbitmq.retry-test.enabled:false}")
     private boolean retryTestEnabled;
@@ -38,10 +39,12 @@ public class SolicitudEventConsumer {
 
     public SolicitudEventConsumer(
             RabbitTemplate rabbitTemplate,
-            RabbitMQProperties properties) {
+            RabbitMQProperties properties,
+            SolicitudEventProcessor eventProcessor) {
 
         this.rabbitTemplate = rabbitTemplate;
         this.properties = properties;
+        this.eventProcessor = eventProcessor;
     }
 
     @RabbitListener(queues = "${app.rabbitmq.solicitud-queue}")
@@ -74,8 +77,7 @@ public class SolicitudEventConsumer {
 
             log.error(
                     "Mensaje inválido. Se enviará directamente a la DLQ",
-                    ex
-            );
+                    ex);
 
             canal.basicNack(deliveryTag, false, false);
             return;
@@ -88,8 +90,7 @@ public class SolicitudEventConsumer {
                     "Procesando solicitud: id={}, cliente={}, estado={}",
                     evento.solicitudId(),
                     evento.cliente(),
-                    evento.estado()
-            );
+                    evento.estado());
 
             // Simulación exclusiva para pruebas locales
             if (retryTestEnabled
@@ -102,9 +103,8 @@ public class SolicitudEventConsumer {
                         "Error temporal simulado para comprobar los reintentos");
             }
 
-            /*
-             * Aquí se ejecuta el procesamiento real de negocio.
-             */
+            // Procesamiento real del evento
+            eventProcessor.procesar(evento);
 
         } catch (Exception ex) {
 
@@ -113,20 +113,17 @@ public class SolicitudEventConsumer {
                     mensaje,
                     canal,
                     deliveryTag,
-                    ex
-            );
+                    ex);
 
             return;
         }
 
         // 3. Confirmar el mensaje procesado correctamente
-        // Este ACK queda fuera del catch de procesamiento.
         canal.basicAck(deliveryTag, false);
 
         log.info(
                 "Solicitud procesada correctamente. ACK enviado. id={}",
-                evento.solicitudId()
-        );
+                evento.solicitudId());
     }
 
     private void manejarErrorTemporal(
@@ -140,11 +137,10 @@ public class SolicitudEventConsumer {
         int maxIntentos = properties.maxAttempts();
 
         log.error(
-                "Error temporal. Intento {} de {}",
+                "Error durante el procesamiento. Intento {} de {}",
                 reintentosRealizados + 1,
                 maxIntentos,
-                excepcion
-        );
+                excepcion);
 
         boolean quedanIntentos =
                 reintentosRealizados < maxIntentos - 1;
@@ -159,33 +155,28 @@ public class SolicitudEventConsumer {
                         properties.retryExchange(),
                         properties.retryRoutingKey(),
                         evento,
-                        siguienteIntento
-                );
+                        siguienteIntento);
 
                 log.warn(
                         "Mensaje enviado y confirmado para reintento: {} de {}",
                         siguienteIntento,
-                        maxIntentos - 1
-                );
+                        maxIntentos - 1);
 
             } else {
 
                 log.error(
                         "Se agotaron los {} intentos. Enviando a DLQ",
-                        maxIntentos
-                );
+                        maxIntentos);
 
                 publicarYConfirmar(
                         properties.deadLetterExchange(),
                         properties.deadLetterRoutingKey(),
                         evento,
-                        reintentosRealizados
-                );
+                        reintentosRealizados);
 
                 log.info(
                         "Mensaje publicado y confirmado en la DLQ. id={}",
-                        evento.solicitudId()
-                );
+                        evento.solicitudId());
             }
 
         } catch (Exception errorPublicacion) {
@@ -193,14 +184,13 @@ public class SolicitudEventConsumer {
             log.error(
                     "No se pudo confirmar la publicación. "
                             + "Se conservará el mensaje original mediante NACK",
-                    errorPublicacion
-            );
+                    errorPublicacion);
 
             canal.basicNack(deliveryTag, false, true);
             return;
         }
 
-        // 4. ACK solamente después de confirmar la publicación
+        // ACK solamente después de confirmar la publicación
         canal.basicAck(deliveryTag, false);
     }
 
@@ -223,35 +213,30 @@ public class SolicitudEventConsumer {
 
                     return mensajeSalida;
                 },
-                correlationData
-        );
+                correlationData);
 
         CorrelationData.Confirm confirmacion =
                 correlationData.getFuture().get(
                         publisherConfirmTimeout,
-                        TimeUnit.MILLISECONDS
-                );
+                        TimeUnit.MILLISECONDS);
 
         if (!confirmacion.isAck()) {
             throw new IllegalStateException(
                     "RabbitMQ rechazó la publicación: "
-                            + confirmacion.getReason()
-            );
+                            + confirmacion.getReason());
         }
 
         if (correlationData.getReturned() != null) {
             throw new IllegalStateException(
                     "RabbitMQ devolvió el mensaje porque no encontró "
                             + "una cola de destino para el routing key: "
-                            + routingKey
-            );
+                            + routingKey);
         }
 
         log.debug(
                 "Publicación confirmada por RabbitMQ. exchange={}, routingKey={}",
                 exchange,
-                routingKey
-        );
+                routingKey);
     }
 
     private int obtenerReintentos(Message mensaje) {

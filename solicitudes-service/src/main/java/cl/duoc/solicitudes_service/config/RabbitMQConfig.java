@@ -107,7 +107,10 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue demoQueue(RabbitMQProperties properties) {
-        return QueueBuilder.durable(properties.demoQueue()).build();
+        return QueueBuilder.durable(properties.demoQueue())
+            .deadLetterExchange(properties.deadLetterExchange())
+            .deadLetterRoutingKey(properties.deadLetterRoutingKey())
+            .build();
     }
 
     @Bean

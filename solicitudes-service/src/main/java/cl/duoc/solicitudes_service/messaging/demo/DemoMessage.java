@@ -1,4 +1,5 @@
-package cl.duoc.solicitudes_service.messaging;
+
+package cl.duoc.solicitudes_service.messaging.demo;
 
 public record DemoMessage(
         String id,

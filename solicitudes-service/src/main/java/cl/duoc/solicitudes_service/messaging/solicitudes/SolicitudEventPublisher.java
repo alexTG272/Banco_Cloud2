@@ -1,6 +1,7 @@
-package cl.duoc.solicitudes_service.messaging;
+package cl.duoc.solicitudes_service.messaging.solicitudes;
 
 import cl.duoc.solicitudes_service.config.RabbitMQProperties;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 

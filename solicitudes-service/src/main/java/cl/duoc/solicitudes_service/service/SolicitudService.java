@@ -1,8 +1,8 @@
 package cl.duoc.solicitudes_service.service;
 
 import cl.duoc.solicitudes_service.entity.Solicitud;
-import cl.duoc.solicitudes_service.messaging.SolicitudEvent;
-import cl.duoc.solicitudes_service.messaging.SolicitudEventPublisher;
+import cl.duoc.solicitudes_service.messaging.solicitudes.SolicitudEvent;
+import cl.duoc.solicitudes_service.messaging.solicitudes.SolicitudEventPublisher;
 import cl.duoc.solicitudes_service.repository.SolicitudRepository;
 import org.springframework.stereotype.Service;
 

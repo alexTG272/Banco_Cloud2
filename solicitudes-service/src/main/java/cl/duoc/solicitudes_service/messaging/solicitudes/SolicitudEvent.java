@@ -1,4 +1,5 @@
-package cl.duoc.solicitudes_service.messaging;
+package cl.duoc.solicitudes_service.messaging.solicitudes;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

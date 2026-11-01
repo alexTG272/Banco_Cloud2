@@ -1,7 +1,8 @@
-
-package cl.duoc.solicitudes_service.messaging;
+package cl.duoc.solicitudes_service.messaging.demo;
 
 import com.rabbitmq.client.Channel;
+
+import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,47 +35,65 @@ public class DemoMessageConsumer {
             DemoMessage mensaje,
             Message mensajeOriginal,
             Channel channel
-    ) throws Exception {
+    ) throws IOException {
 
         long deliveryTag =
                 mensajeOriginal.getMessageProperties().getDeliveryTag();
 
         try {
+            if (mensaje == null
+                    || mensaje.id() == null
+                    || mensaje.id().isBlank()
+                    || mensaje.contenido() == null
+                    || mensaje.contenido().isBlank()) {
+
+                throw new IllegalArgumentException(
+                        "El mensaje demo contiene datos obligatorios inválidos"
+                );
+            }
+
             logger.info(
                     "Mensaje recibido desde RabbitMQ. ID: {}, Contenido: {}",
                     mensaje.id(),
                     mensaje.contenido()
             );
 
-            // Simulación del procesamiento.
             logger.info(
                     "Procesando mensaje: {}",
                     mensaje.id()
             );
 
-            // Confirmamos el procesamiento a RabbitMQ.
-            channel.basicAck(deliveryTag, false);
-
-            // Actualizamos el estado después de enviar el ACK.
+            // Actualizamos el estado antes de confirmar el mensaje.
             statusService.marcarProcesado(mensaje.id());
-
-            logger.info(
-                    "Mensaje procesado y ACK enviado. ID: {}",
-                    mensaje.id()
-            );
 
         } catch (Exception exception) {
 
             logger.error(
-                    "Error procesando mensaje de demostración: {}",
-                    mensaje.id(),
+                    "Error procesando mensaje demo. Se enviará a la DLQ. ID: {}",
+                    mensaje != null ? mensaje.id() : "desconocido",
                     exception
             );
 
-            statusService.marcarFallido(mensaje.id());
+            if (mensaje != null
+                    && mensaje.id() != null
+                    && !mensaje.id().isBlank()) {
 
-            // Rechazamos el mensaje sin reencolarlo.
+                statusService.marcarFallido(mensaje.id());
+            }
+
+            // Rechazamos el mensaje sin reencolar.
+            // La configuración DLX de demoQueue lo enviará a la DLQ.
             channel.basicNack(deliveryTag, false, false);
+
+            return;
         }
+
+        // Confirmamos únicamente después de actualizar el estado.
+        channel.basicAck(deliveryTag, false);
+
+        logger.info(
+                "Mensaje procesado correctamente. ACK enviado. ID: {}",
+                mensaje.id()
+        );
     }
 }
